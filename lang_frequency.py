@@ -1,5 +1,7 @@
 import sys
 import os
+import collections
+
 
 def load_data(filepath):
     try:
@@ -14,36 +16,20 @@ def load_data(filepath):
 def get_most_frequent_words(text):
     word_list = []
     for word in text:
-        check = False
-        for element in word_list:
-            if word == element[0]:
-                element[1]+=1
-                check = True
-        if check == False:
-            b = [word, 1]
-            word_list.append(b)
+        word_list.append(word)
 
-    number = 1
-    while number < len(word_list):
-        for index in range(len(word_list) - number):
-            if word_list[index][1] < word_list[index + 1][1]:
-                word_list[index], word_list[index + 1] = word_list[index + 1], word_list[index]
-        number+=1
+    counter = collections.Counter(word_list)
 
-    if len(word_list) > 10:
-        most_frequent_words = []
-        for number in range(10):
-            most_frequent_words.append(word_list[number])
-    else:
-        most_frequent_words = [0 * len(word_list)]
-        most_frequent_words = word_list
-
-    return most_frequent_words
+    return counter.most_common(10)
 
 
 def input_words(most_frequent_words):
     for number in range(len(most_frequent_words)):
-        print("Слово", most_frequent_words[number][0], "повторяется", most_frequent_words[number][1], "раз")
+        print("Слово",
+              most_frequent_words[number][0],
+              "повторяется",
+              most_frequent_words[number][1],
+              "раз")
 
 
 if __name__ == '__main__':
@@ -52,7 +38,9 @@ if __name__ == '__main__':
     file_path = sys.argv[1]
     if not os.path.isfile(file_path):
         exit("Такого файла не существует")
-    if load_data(file_path) == None:
+    if load_data(file_path) is None:
         exit("Проблема с открытием файла")
 
-    input_words(get_most_frequent_words(load_data(file_path)))
+    text = load_data(file_path)
+    most_frequent_words = get_most_frequent_words(text)
+    input_words(most_frequent_words)
