@@ -5,8 +5,8 @@ import collections
 
 def load_data(filepath):
     try:
-        with open(filepath) as text:
-            readed_text = text.read()
+        with open(filepath) as text_file:
+            readed_text = text_file.read()
             return readed_text
     except IOError:
         return None
@@ -14,8 +14,11 @@ def load_data(filepath):
 
 def get_most_frequent_words(text):
     word_list = text.split(" ")
-    counter = collections.Counter(word_list)
-    word, number = counter
+    just_word_list = []
+    for word in word_list:
+        if word.isalpha():
+            just_word_list.append(word)
+    counter = collections.Counter(just_word_list)
     number_words = 10
     return counter.most_common(number_words)
 
@@ -29,7 +32,7 @@ def output_words(most_frequent_words):
               "раз(а)")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) < 2:
         exit("Вы не ввели путь к файла с данными")
     file_path = sys.argv[1]
