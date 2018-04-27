@@ -6,30 +6,27 @@ import collections
 def load_data(filepath):
     try:
         with open(filepath) as text:
-            decoded_text = text.read()
-            paresed_text = decoded_text.split()
-            return paresed_text
+            readed_text = text.read()
+            return readed_text
     except IOError:
         return None
 
 
 def get_most_frequent_words(text):
-    word_list = []
-    for word in text:
-        word_list.append(word)
-
+    word_list = text.split(" ")
     counter = collections.Counter(word_list)
+    word, number = counter
     number_words = 10
     return counter.most_common(number_words)
 
 
-def input_words(most_frequent_words):
-    for number in range(len(most_frequent_words)):
-        print("Слово",
-              most_frequent_words[number][0],
-              "повторяется",
-              most_frequent_words[number][1],
-              "раз")
+def output_words(most_frequent_words):
+    for word, number in most_frequent_words:
+        print("  ",
+              word,
+              "   - повторяется",
+              number,
+              "раз(а)")
 
 
 if __name__ == '__main__':
@@ -43,4 +40,4 @@ if __name__ == '__main__':
 
     text = load_data(file_path)
     most_frequent_words = get_most_frequent_words(text)
-    input_words(most_frequent_words)
+    output_words(most_frequent_words)
