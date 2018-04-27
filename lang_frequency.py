@@ -19,8 +19,8 @@ def get_most_frequent_words(text):
         word_list.append(word)
 
     counter = collections.Counter(word_list)
-
-    return counter.most_common(10)
+    number_words = 10
+    return counter.most_common(number_words)
 
 
 def input_words(most_frequent_words):
